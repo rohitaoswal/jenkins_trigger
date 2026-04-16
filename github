@@ -1,0 +1,141 @@
+Git Assignments – Step-by-Step Commands & Workflow Reference
+This document is a ready-to-use preparation guide covering Assignment 2 and Assignment 3.
+You can directly revise and execute these commands during exams, labs, or viva preparation.
+
+ASSIGNMENT 2
+Title: Create feature branches, merge them, and resolve conflicts
+
+Step 0: Repository Setup
+git init
+git branch -M main
+git remote add origin <repo-url>
+echo "# Project" > README.md
+git add README.md
+git commit -m "Initial commit"
+git push -u origin main
+
+Step 1: Prepare Repository
+git checkout main
+git pull origin main
+git status
+
+Step 2: Create First Feature Branch
+git checkout -b feature/branch-1
+Create file:
+New-Item intro.txt
+Edit file → add content
+git add intro.txt
+git commit -m "Add intro file in feature branch"
+git push -u origin feature/branch-1
+
+Step 3: Create Second Feature Branch (Parallel Development)
+git checkout main
+git checkout -b feature/branch-2
+Create file:
+New-Item notes.txt
+git add notes.txt
+git commit -m "Add notes file in second feature branch"
+git push -u origin feature/branch-2
+
+Step 4: Merge First Feature Branch (Clean / Fast-Forward Merge)
+git checkout main
+git pull origin main
+git merge feature/branch-1
+git push origin main
+
+Step 5: Create Conflicting Changes
+On main branch:
+git checkout main
+New-Item common.txt
+Edit content:
+This line is from MAIN branch.
+git add common.txt
+git commit -m "Add common file in main"
+git push origin main
+
+On feature/branch-2:
+git checkout feature/branch-2
+Edit same file:
+This line is from FEATURE BRANCH 2.
+git add common.txt
+git commit -m "Modify common file in feature branch 2"
+
+Step 6: Resolve Merge Conflict
+git checkout main
+git merge feature/branch-2
+Git shows conflict → open file and remove markers:
+<<<<<<< HEAD
+=======
+>>>>>>>
+Resolved content:
+This line is from MAIN branch.
+This line is from FEATURE BRANCH 2.
+git add common.txt
+git commit -m "Resolve merge conflict"
+git push origin main
+
+Step 7: Cleanup
+git branch -d feature/branch-1
+git branch -d feature/branch-2
+git push origin --delete feature/branch-1
+git push origin --delete feature/branch-2
+
+ASSIGNMENT 3
+Title: Fork an open-source AI project and submit a pull request
+
+Step 1: Fork Open-Source AI Repository
+Fork awesome-machine-learning on GitHub
+Repo appears under your account
+
+Step 2: Clone Fork & Configure Upstream
+git clone https://github.com/<your-username>/awesome-machine-learning.git
+cd awesome-machine-learning
+git remote add upstream https://github.com/josephmisiti/awesome-machine-learning.git
+git remote -v
+
+Step 3: Create Feature Branch
+Note: Default branch is master
+git checkout master
+git pull upstream master
+git checkout -b feature/add-ai-resource
+
+Step 4: Make AI-Related Contribution
+Edit README.md and add:
+- **Machine Learning Mastery** – Practical tutorials for machine learning and deep learning.
+git add README.md
+git commit -m "Add machine learning resource"
+git push -u origin feature/add-ai-resource
+
+Step 5: Create Pull Request (GitHub UI)
+Click Compare & Pull Request
+Base repo: josephmisiti/awesome-machine-learning
+Base branch: master
+Head repo: your fork
+Compare branch: feature/add-ai-resource
+Create PR
+
+Step 6: Handle Conflicts During Review (If Any)
+git fetch upstream
+git checkout feature/add-ai-resource
+git merge upstream/master
+If conflict occurs:
+- Open conflicted file
+- Remove conflict markers
+- Keep valid changes
+git add README.md
+git commit -m "Resolve merge conflict with upstream"
+git push origin feature/add-ai-resource
+
+If Git shows:
+Already up to date.
+No conflict exists (clean collaboration)
+
+FINAL NOTES FOR EXAM / VIVA
+Feature branches isolate work
+Pull Requests enable review & collaboration
+Conflicts occur only when same lines change
+Absence of conflicts is valid and correct
+
+STATUS
+Assignment 2 – Completed
+Assignment 3 – Completed
